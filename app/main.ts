@@ -1,10 +1,16 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow, ipcMain, screen} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
+
+ipcMain.on("openWindow", () => {
+
+  console.log("hieeee")
+  createWindow();
+});
 
 function createWindow(): BrowserWindow {
 
@@ -47,6 +53,7 @@ function createWindow(): BrowserWindow {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+    console.log("test")
     win = null;
   });
 
@@ -75,9 +82,13 @@ try {
     if (win === null) {
       createWindow();
     }
+    debugger;
+    win.webContents.send("test");
+    
   });
 
 } catch (e) {
   // Catch Error
   // throw e;
 }
+
